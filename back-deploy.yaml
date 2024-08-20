@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: antcv-back
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: antcv-server
+  template:
+    metadata:
+      name: antcv-back
+      labels:
+        app: antcv-server
+    spec:
+      containers:
+        - name: antcv-back
+          image: xtaoistzz8t/antcv_back
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: antcv-back-service
+spec:
+  type: NodePort
+  selector:
+    app: antcv-server
+  ports:
+    - port: 5000
+      targetPort: 5000
+      nodePort : 31001

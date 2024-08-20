@@ -1,0 +1,40 @@
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: antcv-back-ingress
+  annotations:
+    kubernetes.io/ingress.class: kong
+    konghq.com/strip-path: 'true'
+spec:
+  rules:
+  - host: xtaoistzz.back
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: antcv-back-service
+            port: 
+              number: 5000
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: antcv-front-ingress
+  annotations:
+    kubernetes.io/ingress.class: kong
+    konghq.com/strip-path: 'true'
+spec:
+  rules:
+  - host: xtaoistzz.front
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: antcv-front-service
+            port: 
+              number: 3000
