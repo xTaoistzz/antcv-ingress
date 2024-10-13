@@ -1,20 +1,18 @@
-# ใช้ Node.js image
-FROM node:18
+FROM node:18-alpine
 
-# ตั้งค่า working directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# คัดลอก package.json และ package-lock.json
 COPY package*.json ./
+RUN npm ci
 
-# ติดตั้ง dependencies
-RUN npm install
-
-# คัดลอกโค้ดทั้งหมด
 COPY . .
 
-# เปิดพอร์ตที่แอปพลิเคชันของคุณใช้
-EXPOSE 3000
+USER root
+RUN chmod -R 777 /app/node_modules
+RUN npm install -g next
 
-# ใช้ npm run dev สำหรับการพัฒนา
-CMD [ "npm", "run", "dev" ]
+RUN npx next build
+
+# ขั้นตอนอื่นๆ ตามต้องการ
+
+CMD ["npm", "start"]
